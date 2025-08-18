@@ -48,6 +48,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 
 	PlayerInputComponent->BindAction("MainAttack", IE_Pressed, this, &ASCharacter::MainAttack);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASCharacter::Jump);
 }
 
 void ASCharacter::MoveForward(float Value)
@@ -78,4 +79,16 @@ void ASCharacter::MainAttack()
 	auto handLocation = GetMesh()->GetSocketLocation(FName("Muzzle_01"));
 	
 	GetWorld()->SpawnActor<AActor>(projectileClass, handLocation, GetControlRotation(), spawnParameters);
+}
+
+void ASCharacter::ToggleCrouch()
+{
+	if (CanCrouch()) // Проверка, может ли персонаж присесть
+	{
+		Crouch(); // Присесть
+	}
+	else
+	{
+		UnCrouch(); // Встать
+	}
 }
