@@ -2,15 +2,24 @@
 
 #include "SCharacter.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
+
 // Sets default values
 ASCharacter::ASCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
 	springArmComp = CreateDefaultSubobject<USpringArmComponent>( FName( "SprintArmComp" ) );
 	springArmComp->SetupAttachment(this->RootComponent);
+	springArmComp->bUsePawnControlRotation = true;
+	
 	cameraComp = CreateDefaultSubobject<UCameraComponent>( FName( "CameraComp" ) );
 	cameraComp->SetupAttachment(springArmComp);
+
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	
+	bUseControllerRotationYaw = false;
 }
 
 // Called when the game starts or when spawned
@@ -22,12 +31,22 @@ void ASCharacter::BeginPlay()
 
 void ASCharacter::MoveForward(float Value)
 {
-	AddMovementInput(GetActorForwardVector(), Value);
+	auto controlRotation = GetControlRotation();
+	controlRotation.Pitch = 0.0f;
+	controlRotation.Roll = 0.0f;
+	
+	AddMovementInput(controlRotation.Vector(), Value);
 }
 
 void ASCharacter::MoveRight(float Value)
 {
-	AddMovementInput(GetActorRightVector(), Value);
+	auto controlRotation = GetControlRotation();
+	controlRotation.Pitch = 0.0f;
+	controlRotation.Roll = 0.0f;
+
+	auto rightVector = FRotationMatrix(controlRotation).GetScaledAxis(EAxis::Y);
+	
+	AddMovementInput(rightVector, Value);
 }
 
 // Called every frame
