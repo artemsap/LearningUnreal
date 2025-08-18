@@ -23,7 +23,7 @@ protected:
 
 	void MoveForward(float Value);
 	void MoveRight(float Value);
-
+	void MainAttack();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -32,6 +32,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> projectileClass;
+	
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* cameraComp;
 	
