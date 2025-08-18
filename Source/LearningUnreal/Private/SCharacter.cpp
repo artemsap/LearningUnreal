@@ -74,6 +74,8 @@ void ASCharacter::MainAttack()
 {
 	FActorSpawnParameters spawnParameters;
 	spawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	auto handLocation = GetMesh()->GetSocketLocation(FName("Muzzle_01"));
 	
-	GetWorld()->SpawnActor<AActor>(projectileClass, GetActorLocation(), GetControlRotation(), spawnParameters);
+	GetWorld()->SpawnActor<AActor>(projectileClass, handLocation, GetControlRotation(), spawnParameters);
 }
