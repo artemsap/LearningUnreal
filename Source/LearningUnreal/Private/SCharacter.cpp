@@ -80,15 +80,3 @@ void ASCharacter::MainAttack()
 	
 	GetWorld()->SpawnActor<AActor>(projectileClass, handLocation, GetControlRotation(), spawnParameters);
 }
-
-void ASCharacter::ToggleCrouch()
-{
-	if (CanCrouch()) // Проверка, может ли персонаж присесть
-	{
-		Crouch(); // Присесть
-	}
-	else
-	{
-		UnCrouch(); // Встать
-	}
-}
