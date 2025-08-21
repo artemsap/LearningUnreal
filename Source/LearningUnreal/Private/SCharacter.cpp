@@ -17,6 +17,8 @@ ASCharacter::ASCharacter()
 	cameraComp = CreateDefaultSubobject<UCameraComponent>( FName( "CameraComp" ) );
 	cameraComp->SetupAttachment(springArmComp);
 
+	interactionComp = CreateDefaultSubobject<USInteractionComponent>( FName( "InteractionComp" ) );
+
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
 	bUseControllerRotationYaw = false;
@@ -49,6 +51,8 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	PlayerInputComponent->BindAction("MainAttack", IE_Pressed, this, &ASCharacter::MainAttack);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASCharacter::Jump);
+	
+	PlayerInputComponent->BindAction("PrimaryInteraction", IE_Pressed, this, &ASCharacter::PrimaryInteraction);
 }
 
 void ASCharacter::MoveForward(float Value)
@@ -79,4 +83,9 @@ void ASCharacter::MainAttack()
 	auto handLocation = GetMesh()->GetSocketLocation(FName("Muzzle_01"));
 	
 	GetWorld()->SpawnActor<AActor>(projectileClass, handLocation, GetControlRotation(), spawnParameters);
+}
+
+void ASCharacter::PrimaryInteraction()
+{
+	interactionComp->PrimaryInteraction();
 }
