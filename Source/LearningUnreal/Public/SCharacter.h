@@ -25,6 +25,7 @@ protected:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	void MainAttack();
+	void MainAttackTimer();
 	void PrimaryInteraction();
 public:	
 	// Called every frame
@@ -33,10 +34,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-protected:
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<AActor> projectileClass;
-	
+protected:	
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* cameraComp;
 	
@@ -45,4 +43,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	USInteractionComponent* interactionComp;
+
+	UPROPERTY(EditAnywhere, Category="Attack Info")
+	TSubclassOf<AActor> projectileClass;
+	
+	UPROPERTY(EditAnywhere, Category="Attack Info")
+	UAnimMontage* animMontage;
+
+	FTimerHandle timerHandle;
 };

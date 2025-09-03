@@ -77,6 +77,12 @@ void ASCharacter::MoveRight(float Value)
 
 void ASCharacter::MainAttack()
 {
+	PlayAnimMontage(animMontage);
+	GetWorldTimerManager().SetTimer(timerHandle, this, &ASCharacter::MainAttackTimer, 0.2f, false);
+}
+
+void ASCharacter::MainAttackTimer()
+{
 	FActorSpawnParameters spawnParameters;
 	spawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
