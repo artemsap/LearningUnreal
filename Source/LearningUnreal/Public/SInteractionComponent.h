@@ -6,7 +6,6 @@
 #include "Components/ActorComponent.h"
 #include "SInteractionComponent.generated.h"
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class LEARNINGUNREAL_API USInteractionComponent : public UActorComponent
 {
@@ -15,7 +14,7 @@ class LEARNINGUNREAL_API USInteractionComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	USInteractionComponent();
-
+	
 protected:
 	UPROPERTY(EditAnywhere)
 	float hitDistance = 1000.0f;
@@ -23,12 +22,6 @@ protected:
 	UPROPERTY(EditAnywhere)
     float rayCastSize = 30.0f;
 	
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
-	
 public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void PrimaryInteraction();		
 };
