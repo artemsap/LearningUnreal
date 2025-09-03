@@ -45,13 +45,23 @@ void USInteractionComponent::PrimaryInteraction()
 	FRotator eyesRotation;
 	owner->GetActorEyesViewPoint(start,eyesRotation );
 	FVector end = start + eyesRotation.Vector() * hitDistance;
+
+	FCollisionShape collisionShape;
+	collisionShape.SetSphere(30.0f);
 	
-	if (FHitResult hitResult; GetWorld()->LineTraceSingleByObjectType(hitResult, start, end, collisionParams))
+	if (TArray<FHitResult> hitsResult; GetWorld()->SweepMultiByObjectType(hitsResult, start, end, FQuat::Identity, collisionParams, collisionShape))
 	{
-		if (auto hitActor = hitResult.GetActor(); hitActor && hitActor->Implements<USGameplayInterface>())
+		for (const auto& hitResult : hitsResult)
 		{
-			ISGameplayInterface::Execute_Interact(hitActor, Cast<APawn>(owner));
+			if (auto hitActor = hitResult.GetActor(); hitActor && hitActor->Implements<USGameplayInterface>())
+			{
+				ISGameplayInterface::Execute_Interact(hitActor, Cast<APawn>(owner));
+				break;
+			}
+			//DrawDebugSphere(GetWorld(), hitResult.ImpactPoint, 30.0f, 32, FColor::Red, false, 5);
 		}
 	}
+
+	//DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 5);
 }
 
