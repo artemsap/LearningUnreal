@@ -20,6 +20,9 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float hitDistance = 1000.0f;
 	
+	UPROPERTY(EditAnywhere)
+    float rayCastSize = 30.0f;
+	
 	// Called when the game starts
 	virtual void BeginPlay() override;
 

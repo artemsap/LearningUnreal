@@ -45,11 +45,8 @@ void USInteractionComponent::PrimaryInteraction()
 	FRotator eyesRotation;
 	owner->GetActorEyesViewPoint(start,eyesRotation );
 	FVector end = start + eyesRotation.Vector() * hitDistance;
-
-	FCollisionShape collisionShape;
-	collisionShape.SetSphere(30.0f);
 	
-	if (TArray<FHitResult> hitsResult; GetWorld()->SweepMultiByObjectType(hitsResult, start, end, FQuat::Identity, collisionParams, collisionShape))
+	if (TArray<FHitResult> hitsResult; GetWorld()->SweepMultiByObjectType(hitsResult, start, end, FQuat::Identity, collisionParams, FCollisionShape::MakeSphere(rayCastSize)))
 	{
 		for (const auto& hitResult : hitsResult)
 		{
@@ -58,10 +55,7 @@ void USInteractionComponent::PrimaryInteraction()
 				ISGameplayInterface::Execute_Interact(hitActor, Cast<APawn>(owner));
 				break;
 			}
-			//DrawDebugSphere(GetWorld(), hitResult.ImpactPoint, 30.0f, 32, FColor::Red, false, 5);
 		}
 	}
-
-	//DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 5);
 }
 
