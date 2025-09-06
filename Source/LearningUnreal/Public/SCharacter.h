@@ -9,7 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "SCharacter.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class LEARNINGUNREAL_API ASCharacter : public ACharacter
 {
 	GENERATED_BODY()

@@ -8,7 +8,7 @@
 #include "PhysicsEngine/RadialForceComponent.h"
 #include "SExplosiveBarrel.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class LEARNINGUNREAL_API ASExplosiveBarrel : public AActor
 {
 	GENERATED_BODY()

@@ -9,7 +9,7 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "SMagicProjecttile.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class LEARNINGUNREAL_API ASMagicProjecttile : public AActor
 {
 	GENERATED_BODY()
