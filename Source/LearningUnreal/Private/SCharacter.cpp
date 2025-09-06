@@ -77,15 +77,19 @@ void ASCharacter::MoveRight(float Value)
 
 void ASCharacter::MainAttack()
 {
-	PlayAnimMontage(animMontage);
-	GetWorldTimerManager().SetTimer(timerHandle, this, &ASCharacter::MainAttackTimer, 0.2f, false);
+	if (!GetWorldTimerManager().IsTimerActive(timerHandle))
+	{
+		PlayAnimMontage(animMontage);
+		GetWorldTimerManager().SetTimer(timerHandle, this, &ASCharacter::MainAttackTimer, 0.2f, false);
+	}
 }
 
 void ASCharacter::MainAttackTimer()
 {
 	FActorSpawnParameters spawnParameters;
 	spawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
+	spawnParameters.Instigator = this;
+	
 	auto handLocation = GetMesh()->GetSocketLocation(FName("Muzzle_01"));
 	
 	GetWorld()->SpawnActor<AActor>(projectileClass, handLocation, GetControlRotation(), spawnParameters);
