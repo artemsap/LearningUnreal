@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "SExplosiveBarrel.h"
 
 // Sets default values
@@ -10,31 +9,26 @@ ASExplosiveBarrel::ASExplosiveBarrel()
 	PrimaryActorTick.bCanEverTick = true;
 
 	staticMeshComp = CreateDefaultSubobject<UStaticMeshComponent>( FName( "staticMeshComp" ) );
-	staticMeshComp->SetNotifyRigidBodyCollision(true); // Включаем уведомления
-	staticMeshComp->SetCollisionResponseToChannel(
-		ECC_WorldStatic, 
-		ECR_Ignore            // Игнорируем события Hit (альтернативный вариант)
-	);
-	
+	staticMeshComp->SetSimulatePhysics(true);
+	staticMeshComp->SetCollisionProfileName("PhysicsActor", false);
 	RootComponent = staticMeshComp;
 
 	radialForceComp = CreateDefaultSubobject<URadialForceComponent>( FName( "radialForceComp" ) );
 	radialForceComp->SetupAttachment(staticMeshComp);
-	radialForceComp->ForceStrength = 1000.0f;
-	radialForceComp->Radius = 500.0f;
+	radialForceComp->ForceStrength = 2000.0f;
+	radialForceComp->Radius = 1000.0f;
+	radialForceComp->ImpulseStrength = 2000.0f;
+	radialForceComp->bImpulseVelChange = true;
 }
 
-// Called when the game starts or when spawned
-void ASExplosiveBarrel::BeginPlay()
+void ASExplosiveBarrel::PostInitializeComponents()
 {
-	Super::BeginPlay();
-	
+	Super::PostInitializeComponents();
+
+	staticMeshComp->OnComponentHit.AddDynamic(this, &ASExplosiveBarrel::OnActorHit);
 }
 
-// Called every frame
-void ASExplosiveBarrel::Tick(float DeltaTime)
+void ASExplosiveBarrel::OnActorHit(UPrimitiveComponent* hitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	Super::Tick(DeltaTime);
-
+	radialForceComp->FireImpulse();
 }
-

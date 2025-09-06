@@ -18,17 +18,15 @@ public:
 	ASExplosiveBarrel();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
+	virtual void PostInitializeComponents() override;
+	
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* staticMeshComp;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	URadialForceComponent* radialForceComp;
-	
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
+private:
+	UFUNCTION(BlueprintCallable)
+	void OnActorHit(UPrimitiveComponent* hitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };
